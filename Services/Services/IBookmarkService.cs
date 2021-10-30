@@ -8,10 +8,9 @@
         IEnumerable<BookmarkDTO> GetBookmarks();
         IEnumerable<BookmarkDTO> GetBookmark(int id);
         BookmarkDTO CreateBookmark(BookmarkDTO bookmark);
-        void UpdateBookmark(BookmarkDTO bookmark);
-        void DeleteBookmark(BookmarkDTO bookmark);
+        BookmarkDTO UpdateBookmark(int id, BookmarkDTO bookmark);
+        bool DeleteBookmark(int id);
 
         BookmarkDTO GetCatrgoryById(int? categoryId);
-        IEnumerable<BookmarkDTO> GetByCategory(int categoryId, int id);
     }
 }

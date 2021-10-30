@@ -14,7 +14,6 @@
 
         public string ShortDescription { get; set; }
 
-        [Required(ErrorMessage = "You have to add a Category ID!")]
         [Range(1, int.MaxValue, ErrorMessage = "Category ID needs to be greater than 0!")]
         public int? CategoryId { get; set; }
 

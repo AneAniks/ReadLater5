@@ -15,8 +15,8 @@
 
         public int? CategoryId { get; set; }
 
-        public virtual Category Category { get; set; }
-
         public DateTime CreateDate { get; set; }
+
+        public virtual Category Category { get; set; }
     }
 }
