@@ -10,6 +10,7 @@ namespace ReadLater5
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Services;
+    using Services.Repositorys;
 
     public class Startup
     {
@@ -41,6 +42,8 @@ namespace ReadLater5
             services.AddMvc();
 
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IBookmarkService, BookmarkService>();
+            services.AddScoped<IBookmarkRepository, BookmarkRepository>();
 
             services.AddControllersWithViews();
         }
