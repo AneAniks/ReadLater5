@@ -1,75 +1,51 @@
 ﻿namespace Services.Repositorys
 {
-    using AutoMapper;
     using Data;
     using Entity;
-    using Entity.DTOs;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     public class BookmarkRepository : IBookmarkRepository
     {
-        private readonly IMapper _mapper;
-        private readonly ReadLaterDataContext _readContext;
-        public BookmarkRepository(ReadLaterDataContext readContext, IMapper mapper)
+        private ReadLaterDataContext _readContext;
+        public BookmarkRepository(ReadLaterDataContext readContext)
         {
             this._readContext = readContext;
-            this._mapper = mapper;
         }
-        public IEnumerable<BookmarkDTO> GetBookmarks()
+        public List<Bookmark> GetBookmarks()
         {
             return _readContext.Bookmark
             .AsEnumerable()
-            .Select(b => new BookmarkDTO()
+            .Select(b => new Bookmark()
             {
-                Id = b.ID,
+                ID = b.ID,
                 URL = b.URL,
                 ShortDescription = b.ShortDescription,
                 CategoryId = b.CategoryId,
                 CreateDate = b.CreateDate
             }).ToList();
         }
-        public IEnumerable<BookmarkDTO> GetBookmark(int id)
+        public Bookmark GetBookmark(int id)
         {
             var bookmark = _readContext.Bookmark.Where(x => x.ID == id);
-            return _mapper.Map<IEnumerable<BookmarkDTO>>(bookmark);
+            return bookmark.FirstOrDefault();
         }
-        public BookmarkDTO CreateBookmark(BookmarkDTO bookmark)
+        public Bookmark CreateBookmark(Bookmark bookmark)
         {
-            var newBookmark = _mapper.Map<Bookmark>(bookmark);
-
-            _readContext.Bookmark.Add(newBookmark);
+            _readContext.Bookmark.Add(bookmark);
             _readContext.SaveChanges();
 
-            return _mapper.Map<BookmarkDTO>(newBookmark);
+            return bookmark;
         }
-        public BookmarkDTO UpdateBookmark(int id, BookmarkDTO bookmark)
+        public void UpdateBookmark(Bookmark bookmark)
         {
-            var b = _readContext.Bookmark.FirstOrDefault(x => x.ID == id);
-            if (b == null)
-            {
-                throw new Exception("Ticket not found");
-            }
-
-            bookmark.Id = id;
-            b = _mapper.Map<Bookmark>(bookmark);
+            _readContext.Update(bookmark);
             _readContext.SaveChanges();
-
-            return _mapper.Map<BookmarkDTO>(b);
         }
-        public bool DeleteBookmark(int id)
+        public void DeleteBookmark(Bookmark bookmark)
         {
-            var bookmark = _readContext.Bookmark.FirstOrDefault(x => x.ID == id);
-
-            if (bookmark == null)
-            {
-                return false;
-            }
-
             _readContext.Bookmark.Remove(bookmark);
             _readContext.SaveChanges();
-            return true;
         }
     }
 }

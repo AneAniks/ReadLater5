@@ -1,6 +1,5 @@
 namespace ReadLater5
 {
-    using AutoMapper;
     using Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -24,15 +23,7 @@ namespace ReadLater5
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddMaps("Entity");
-            });
-
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
-
-            services.AddDbContext<ReadLaterDataContext>(options =>
+        services.AddDbContext<ReadLaterDataContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();

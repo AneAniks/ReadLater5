@@ -1,46 +1,44 @@
 ﻿namespace Services
 {
-    using AutoMapper;
     using Data;
-    using Entity.DTOs;
+    using Entity;
     using System.Collections.Generic;
     using System.Linq;
 
     public class BookmarkService : IBookmarkService
     {
-        private readonly IMapper _mapper;
-        private readonly IBookmarkRepository _bookmarkRepo;
-        private readonly ReadLaterDataContext _readContext;
-        public BookmarkService(ReadLaterDataContext readContext, IBookmarkRepository bookmarkRepo, IMapper mapper)
+        private  IBookmarkRepository _bookmarkRepo;
+        private  ReadLaterDataContext _readContext;
+        public BookmarkService(ReadLaterDataContext readContext, IBookmarkRepository bookmarkRepo)
         {
             this._readContext = readContext;
             this._bookmarkRepo = bookmarkRepo;
-            this._mapper = mapper;
         }
-        public IEnumerable<BookmarkDTO> GetBookmarks()
+        public List<Bookmark> GetBookmarks()
         {
             return _bookmarkRepo.GetBookmarks();
         }
-        public IEnumerable<BookmarkDTO> GetBookmark(int id)
+        public Bookmark GetBookmark(int id)
         {
             return _bookmarkRepo.GetBookmark(id);
         }
-        public BookmarkDTO CreateBookmark(BookmarkDTO bookmark)
+        public Bookmark CreateBookmark(Bookmark bookmark)
         {
-            return _bookmarkRepo.CreateBookmark(bookmark);
+            _bookmarkRepo.CreateBookmark(bookmark);
+            return bookmark;
         }
-        public BookmarkDTO UpdateBookmark(int id, BookmarkDTO bookmark)
+        public void UpdateBookmark(Bookmark bookmark)
         {
-            return _bookmarkRepo.UpdateBookmark(id, bookmark);
+           _bookmarkRepo.UpdateBookmark(bookmark);
         }
-        public bool DeleteBookmark(int id)
+        public void DeleteBookmark(Bookmark bookmark)
         {
-            return _bookmarkRepo.DeleteBookmark(id);
+            _bookmarkRepo.DeleteBookmark(bookmark);
         }
-        public BookmarkDTO GetCatrgoryById(int? categoryId)
+        public Bookmark GetCatrgoryById(int? categoryId)
         {
             var bookmark = _readContext.Bookmark.Where(x => x.CategoryId == categoryId);
-            return _mapper.Map<BookmarkDTO>(bookmark);
+            return bookmark.FirstOrDefault();
         }
     }
 }
