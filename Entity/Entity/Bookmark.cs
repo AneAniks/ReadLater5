@@ -14,6 +14,7 @@
         public string ShortDescription { get; set; }
 
         public int? CategoryId { get; set; }
+        public string OwnerId { get; set; }
 
         public DateTime CreateDate { get; set; }
 

@@ -9,5 +9,6 @@ namespace Entity
 
         [StringLength(maximumLength: 50)]
         public string Name { get; set; }
+        public string OwnerId { get; set; }
     }
 }
